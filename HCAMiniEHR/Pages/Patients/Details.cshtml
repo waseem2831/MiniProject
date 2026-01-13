@@ -1,0 +1,108 @@
+﻿@page
+@model HCAMiniEHR.Pages.Patients.DetailsModel
+@{
+    ViewData["Title"] = "Patient Details";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Patient Details</h1>
+        <div>
+            <a href="/Patients/Edit?id=@Model.Patient.PatientId" class="btn btn-warning">Edit Patient</a>
+            <a href="/Patients" class="btn btn-secondary">Back to List</a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Personal Information</h4>
+                </div>
+                <div class="card-body">
+                    <dl class="row">
+                        <dt class="col-sm-4">Patient ID:</dt>
+                        <dd class="col-sm-8">@Model.Patient.PatientId</dd>
+
+                        <dt class="col-sm-4">Full Name:</dt>
+                        <dd class="col-sm-8">@Model.Patient.FirstName @Model.Patient.LastName</dd>
+
+                        <dt class="col-sm-4">Date of Birth:</dt>
+                        <dd class="col-sm-8">
+                            @Model.Patient.DateOfBirth.ToString("MM/dd/yyyy")
+                            <small class="text-muted">(Age: @((DateTime.Now - Model.Patient.DateOfBirth).Days / 365) years)</small>
+                        </dd>
+
+                        <dt class="col-sm-4">Gender:</dt>
+                        <dd class="col-sm-8">@Model.Patient.Gender</dd>
+
+                        <dt class="col-sm-4">Phone:</dt>
+                        <dd class="col-sm-8">@Model.Patient.PhoneNumber</dd>
+
+                        <dt class="col-sm-4">Email:</dt>
+                        <dd class="col-sm-8">@Model.Patient.Email</dd>
+
+                        <dt class="col-sm-4">Address:</dt>
+                        <dd class="col-sm-8">@Model.Patient.Address</dd>
+
+                        <dt class="col-sm-4">Registered:</dt>
+                        <dd class="col-sm-8">@Model.Patient.CreatedDate.ToString("MM/dd/yyyy")</dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0">Appointments (@Model.Appointments.Count)</h4>
+                    <a href="/Appointments/Create?patientId=@Model.Patient.PatientId" class="btn btn-light btn-sm">Schedule New</a>
+                </div>
+                <div class="card-body">
+                    @if (Model.Appointments.Any())
+                    {
+                        <div class="list-group">
+                            @foreach (var appt in Model.Appointments.OrderByDescending(a => a.AppointmentDate).Take(5))
+                            {
+                                var statusBadge = appt.Status switch
+                                {
+                                    "Completed" => "badge bg-success",
+                                    "Scheduled" => "badge bg-primary",
+                                    "Cancelled" => "badge bg-danger",
+                                    _ => "badge bg-secondary"
+                                };
+
+                                <div class="list-group-item">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h6 class="mb-1">@appt.AppointmentType</h6>
+                                        <small><span class="@statusBadge">@appt.Status</span></small>
+                                    </div>
+                                    <p class="mb-1">
+                                        <strong>Date:</strong> @appt.AppointmentDate.ToString("MM/dd/yyyy hh:mm tt")<br />
+                                        <strong>Doctor:</strong> @appt.DoctorName
+                                    </p>
+                                    @if (!string.IsNullOrEmpty(appt.Notes))
+                                    {
+                                        <small class="text-muted">@appt.Notes</small>
+                                    }
+                                    <div class="mt-2">
+                                        <a href="/Appointments/Details?id=@appt.AppointmentId" class="btn btn-sm btn-outline-info">View Details</a>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                        @if (Model.Appointments.Count > 5)
+                        {
+                            <p class="text-muted mt-2 mb-0">Showing 5 most recent appointments</p>
+                        }
+                    }
+                    else
+                    {
+                        <p class="text-muted">No appointments scheduled yet.</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+*/

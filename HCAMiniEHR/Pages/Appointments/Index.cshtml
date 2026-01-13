@@ -1,0 +1,62 @@
+﻿@page
+@model HCAMiniEHR.Pages.Appointments.IndexModel
+@{
+    ViewData["Title"] = "Appointments";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Appointment Schedule</h1>
+        <a href="/Appointments/Create" class="btn btn-primary">Schedule New Appointment</a>
+    </div>
+
+    @if (!string.IsNullOrEmpty(Model.SuccessMessage))
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @Model.SuccessMessage
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    <div class="card">
+        <div class="card-body">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Date/Time</th>
+                        <th>Patient</th>
+                        <th>Type</th>
+                        <th>Doctor</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var appt in Model.Appointments)
+                    {
+                        var rowClass = appt.AppointmentDate < DateTime.Now ? "table-secondary" : "";
+                        var statusBadge = appt.Status switch
+                        {
+                            "Completed" => "badge bg-success",
+                            "Scheduled" => "badge bg-primary",
+                            "Cancelled" => "badge bg-danger",
+                            _ => "badge bg-secondary"
+                        };
+
+                        <tr class="@rowClass">
+                            <td>@appt.AppointmentDate.ToString("MM/dd/yyyy hh:mm tt")</td>
+                            <td>@appt.Patient.FirstName @appt.Patient.LastName</td>
+                            <td>@appt.AppointmentType</td>
+                            <td>@appt.DoctorName</td>
+                            <td><span class="@statusBadge">@appt.Status</span></td>
+                            <td>
+                                <a href="/Appointments/Details?id=@appt.AppointmentId" class="btn btn-sm btn-info">Details</a>
+                                <a href="/Appointments/Edit?id=@appt.AppointmentId" class="btn btn-sm btn-warning">Edit</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

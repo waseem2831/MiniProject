@@ -1,0 +1,38 @@
+@page
+@model HCAMiniEHR.Pages.Appointments.DetailsModel
+@{
+    ViewData["Title"] = "Appointment Details";
+}
+
+<div class="container mt-4">
+    <h1>Appointment Details</h1>
+
+    <div class="card mt-4">
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-3">Date / Time</dt>
+                <dd class="col-sm-9">@Model.Appointment.AppointmentDate.ToString("MM/dd/yyyy hh:mm tt")</dd>
+
+                <dt class="col-sm-3">Patient</dt>
+                <dd class="col-sm-9">@Model.Appointment.Patient.FirstName @Model.Appointment.Patient.LastName</dd>
+
+                <dt class="col-sm-3">Type</dt>
+                <dd class="col-sm-9">@Model.Appointment.AppointmentType</dd>
+
+                <dt class="col-sm-3">Doctor</dt>
+                <dd class="col-sm-9">@Model.Appointment.DoctorName</dd>
+
+                <dt class="col-sm-3">Status</dt>
+                <dd class="col-sm-9">@Model.Appointment.Status</dd>
+
+                <dt class="col-sm-3">Notes</dt>
+                <dd class="col-sm-9">@Model.Appointment.Notes</dd>
+            </dl>
+
+            <div class="d-flex gap-2">
+                <a href="/Appointments/Edit?id=@Model.Appointment.AppointmentId" class="btn btn-warning">Edit</a>
+                <a href="/Appointments" class="btn btn-secondary">Back to List</a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,83 @@
+﻿@page
+@model HCAMiniEHR.Pages.LabOrders.IndexModel
+@{
+    ViewData["Title"] = "Lab Orders";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Lab Order Management</h1>
+        <a href="/LabOrders/Create" class="btn btn-primary">Create New Lab Order</a>
+    </div>
+
+    @if (!string.IsNullOrEmpty(Model.SuccessMessage))
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @Model.SuccessMessage
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            @Model.ErrorMessage
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    <div class="card">
+        <div class="card-body">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Patient</th>
+                        <th>Test Name</th>
+                        <th>Order Date</th>
+                        <th>Status</th>
+                        <th>Results</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var lab in Model.LabOrders)
+                    {
+                        var statusBadge = lab.Status switch
+                        {
+                            "Completed" => "badge bg-success",
+                            "Pending" => "badge bg-warning text-dark",
+                            "InProgress" => "badge bg-info",
+                            _ => "badge bg-secondary"
+                        };
+
+                        <tr>
+                            <td>@lab.LabOrderId</td>
+                            <td>@lab.Appointment.Patient.FirstName @lab.Appointment.Patient.LastName</td>
+                            <td>@lab.TestName</td>
+                            <td>@lab.OrderDate.ToString("MM/dd/yyyy")</td>
+                            <td><span class="@statusBadge">@lab.Status</span></td>
+                            <td>
+                                @if (lab.Status == "Completed")
+                                {
+                                    <span class="text-success">✓ Available</span>
+                                }
+                                else
+                                {
+                                    <span class="text-muted">Pending</span>
+                                }
+                            </td>
+                            <td>
+                                <a href="/LabOrders/Details?id=@lab.LabOrderId" class="btn btn-sm btn-info">Details</a>
+                                <a href="/LabOrders/Edit?id=@lab.LabOrderId" class="btn btn-sm btn-warning">Edit</a>
+                                <form method="post" asp-page-handler="Delete" asp-route-id="@lab.LabOrderId" style="display:inline;">
+                                    <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,87 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "HCA Mini EHR - Dashboard";
+}
+
+<div class="container mt-4">
+    <h1 class="mb-4">Healthcare Management System</h1>
+
+    <div class="row">
+        <div class="col-md-3 mb-3">
+            <div class="card text-white bg-primary">
+                <div class="card-body">
+                    <h5 class="card-title">Total Patients</h5>
+                    <h2 class="card-text">@Model.TotalPatients</h2>
+                    <a href="/Patients" class="btn btn-light btn-sm">Manage Patients</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <div class="card text-white bg-success">
+                <div class="card-body">
+                    <h5 class="card-title">Upcoming Appointments</h5>
+                    <h2 class="card-text">@Model.UpcomingAppointments</h2>
+                    <a href="/Appointments" class="btn btn-light btn-sm">View Schedule</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <div class="card text-white bg-warning">
+                <div class="card-body">
+                    <h5 class="card-title">Pending Lab Orders</h5>
+                    <h2 class="card-text">@Model.PendingLabOrders</h2>
+                    <a href="/LabOrders" class="btn btn-light btn-sm">View Lab Orders</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <div class="card text-white bg-info">
+                <div class="card-body">
+                    <h5 class="card-title">Total Appointments</h5>
+                    <h2 class="card-text">@Model.TotalAppointments</h2>
+                    <a href="/Reports" class="btn btn-light btn-sm">View Reports</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Quick Links</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h5>Patient Management</h5>
+                            <ul>
+                                <li><a href="/Patients">View All Patients</a></li>
+                                <li><a href="/Patients/Create">Add New Patient</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-md-4">
+                            <h5>Appointments</h5>
+                            <ul>
+                                <li><a href="/Appointments">View All Appointments</a></li>
+                                <li><a href="/Appointments/Create">Schedule Appointment</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-md-4">
+                            <h5>Reports</h5>
+                            <ul>
+                                <li><a href="/Reports?type=pending">Pending Lab Orders</a></li>
+                                <li><a href="/Reports?type=followup">Patients Without Follow-up</a></li>
+                                <li><a href="/Reports?type=doctor">Doctor Productivity</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

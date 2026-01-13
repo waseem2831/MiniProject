@@ -1,0 +1,77 @@
+﻿@page
+@model HCAMiniEHR.Pages.LabOrders.CreateModel
+@{
+    ViewData["Title"] = "Create Lab Order";
+}
+
+<div class="container mt-4">
+    <h1>Create New Lab Order</h1>
+    
+    <div class="card mt-4">
+        <div class="card-body">
+            <form method="post">
+                <div class="mb-3">
+                    <label asp-for="LabOrder.AppointmentId" class="form-label">Appointment</label>
+                    <select asp-for="LabOrder.AppointmentId" class="form-control">
+                        <option value="">-- Select Appointment --</option>
+                        @foreach (var appt in Model.Appointments)
+                        {
+                            <option value="@appt.AppointmentId">
+                                @appt.Patient.FirstName @appt.Patient.LastName - @appt.AppointmentDate.ToString("MM/dd/yyyy") - @appt.AppointmentType
+                            </option>
+                        }
+                    </select>
+                    <span asp-validation-for="LabOrder.AppointmentId" class="text-danger"></span>
+                </div>
+                
+                <div class="mb-3">
+                    <label asp-for="LabOrder.TestName" class="form-label">Test Name</label>
+                    <select asp-for="LabOrder.TestName" class="form-control">
+                        <option value="">-- Select Test --</option>
+                        <option value="Complete Blood Count (CBC)">Complete Blood Count (CBC)</option>
+                        <option value="Lipid Panel">Lipid Panel</option>
+                        <option value="Blood Glucose">Blood Glucose</option>
+                        <option value="Thyroid Function (TSH)">Thyroid Function (TSH)</option>
+                        <option value="Cardiac Enzymes">Cardiac Enzymes</option>
+                        <option value="Liver Function Test">Liver Function Test</option>
+                        <option value="Urinalysis">Urinalysis</option>
+                        <option value="Hemoglobin A1C">Hemoglobin A1C</option>
+                        <option value="Vitamin D">Vitamin D</option>
+                        <option value="Other">Other (specify in notes)</option>
+                    </select>
+                    <span asp-validation-for="LabOrder.TestName" class="text-danger"></span>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="LabOrder.Status" class="form-label">Status</label>
+                        <select asp-for="LabOrder.Status" class="form-control">
+                            <option value="Pending">Pending</option>
+                            <option value="InProgress">In Progress</option>
+                            <option value="Completed">Completed</option>
+                        </select>
+                    </div>
+                    
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="LabOrder.OrderDate" class="form-label">Order Date</label>
+                        <input asp-for="LabOrder.OrderDate" type="datetime-local" class="form-control" />
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <label asp-for="LabOrder.Notes" class="form-label">Notes</label>
+                    <textarea asp-for="LabOrder.Notes" class="form-control" rows="3" placeholder="Enter any special instructions or notes"></textarea>
+                </div>
+                
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary">Create Lab Order</button>
+                    <a href="/LabOrders" class="btn btn-secondary">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
