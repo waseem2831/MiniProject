@@ -19,6 +19,9 @@ namespace HCAMiniEHR.Pages.Patients
         [TempData]
         public string? SuccessMessage { get; set; }
 
+        [TempData]
+        public string? ErrorMessage { get; set; }
+
         public async Task OnGetAsync()
         {
             Patients = await _patientService.GetAllPatientsAsync();
@@ -26,11 +29,19 @@ namespace HCAMiniEHR.Pages.Patients
 
         public async Task<IActionResult> OnPostDeleteAsync(int id)
         {
-            var success = await _patientService.DeletePatientAsync(id);
-            if (success)
+            try
             {
-                SuccessMessage = "Patient deleted successfully.";
+                var success = await _patientService.DeletePatientAsync(id);
+                if (success)
+                {
+                    SuccessMessage = "Patient deleted successfully.";
+                }
             }
+            catch (InvalidOperationException ex)
+            {
+                ErrorMessage = ex.Message;
+            }
+
             return RedirectToPage();
         }
     }

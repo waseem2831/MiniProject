@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("HCAMiniEHR")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1374f075e3652167791ea488920dbe9f8446804f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+abb93a3f7ccb8df2533e8b3c33a680eafa21241f")]
 [assembly: System.Reflection.AssemblyProductAttribute("HCAMiniEHR")]
 [assembly: System.Reflection.AssemblyTitleAttribute("HCAMiniEHR")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
