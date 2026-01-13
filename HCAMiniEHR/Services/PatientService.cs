@@ -48,6 +48,13 @@ namespace HCAMiniEHR.Services
             var patient = await _context.Patients.FindAsync(id);
             if (patient == null) return false;
 
+            // Prevent deleting patient with existing appointments
+            var hasAppointments = await _context.Appointments.AnyAsync(a => a.PatientId == id);
+            if (hasAppointments)
+            {
+                throw new InvalidOperationException("Cannot delete patient because they have existing appointments. Please remove or reassign appointments first.");
+            }
+
             _context.Patients.Remove(patient);
             await _context.SaveChangesAsync();
             return true;
